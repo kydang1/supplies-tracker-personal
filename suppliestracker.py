@@ -1,7 +1,7 @@
-import requests, json, math
+import requests
 
 url = f"https://prices.runescape.wiki/api/v1/osrs/latest"
-def testFn():
+def answerFn():
     global answer
     answer = input("")
 brewTotal = restoreTotal = sanfewTotal = divineTotal = 0
@@ -10,7 +10,7 @@ def itemPicker():
     print ("Type 'x' and hit Enter/Return to exit program")
     print ("Type 'total' to retrieve total cost of supplies and exit program")
     print ("Select an item\n1. Saradomin Brew(4)\n2. Super Restore(4)\n3. Sanfew Serum(4)\n4. Divine Super Combat(4)")
-    testFn()
+    answerFn()
 
     if answer == ("Saradomin Brew(4)") or answer == ("brew") or answer == ("saradomin brew") or answer == ("1"):
         brewResponse = requests.get(url)
@@ -56,7 +56,7 @@ def itemPicker():
         divineTotal = divinePrice * supplies
         print(str(divineTotal))
 
-testFn()
+answerFn()
 while not answer == ("x"):
     itemPicker()
     if answer == ("total"):
