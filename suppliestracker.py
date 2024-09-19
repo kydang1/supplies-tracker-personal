@@ -1,23 +1,18 @@
-import requests
-import json
-import math
+import requests, json, math
 
 url = f"https://prices.runescape.wiki/api/v1/osrs/latest"
 def testFn():
     global answer
     answer = input("")
-brewTotal = 0
-restoreTotal = 0
+brewTotal = restoreTotal = sanfewTotal = divineTotal = 0
 def itemPicker():
-    global url
-    global brewTotal
-    global restoreTotal
+    global url, brewTotal, restoreTotal, sanfewTotal, divineTotal
     print ("Type 'x' and hit Enter/Return to exit program")
-    print ("Type 'Total' to retrieve total cost of supplies and exit program")
-    print ("Select an item\nSaradomin Brew(4)\nSuper Restore(4)\nSanfew Serum(4)\nDivine Super Combat(4)")
+    print ("Type 'total' to retrieve total cost of supplies and exit program")
+    print ("Select an item\n1. Saradomin Brew(4)\n2. Super Restore(4)\n3. Sanfew Serum(4)\n4. Divine Super Combat(4)")
     testFn()
 
-    if answer == ("Saradomin Brew(4)") or answer == ("brew") or answer == ("saradomin brew"):
+    if answer == ("Saradomin Brew(4)") or answer == ("brew") or answer == ("saradomin brew") or answer == ("1"):
         brewResponse = requests.get(url)
         if brewResponse.status_code == 200:
             potionData = brewResponse.json()
@@ -28,21 +23,42 @@ def itemPicker():
         brewTotal = brewPrice * brewSupplies
         print (str(brewTotal))
 
-    elif answer == ("Super Restore(4)") or answer == ("restore") or answer == ("super restore"):
+    elif answer == ("Super Restore(4)") or answer == ("restore") or answer == ("super restore") or answer == ("2"):
         restoreResponse = requests.get(url)
-        print (restoreResponse)
         if restoreResponse.status_code == 200:
             potionData = restoreResponse.json()
             restorePrice = potionData["data"]["3024"]["high"]
-            print (restorePrice)
+            print ("Price of Super Restore (4): " + str(restorePrice))
         print ("How many are you using?")
         supplies = int(input(""))
         restoreTotal = restorePrice * supplies
         print(str(restoreTotal))
+    
+    elif answer == ("Sanfew Serum(4)") or answer == ("sanfew") or answer == ("sanfew serum") or answer == ("3"):
+        sanfewResponse = requests.get(url)
+        if sanfewResponse.status_code == 200:
+            potionData = sanfewResponse.json()
+            sanfewPrice = potionData["data"]["10925"]["high"]
+            print ("Price of Sanfew Serum (4): " + str(sanfewPrice))
+        print ("How many are you using?")
+        supplies = int(input(""))
+        sanfewTotal = sanfewPrice * supplies
+        print(str(sanfewTotal))
+    
+    elif answer == ("Divine Super Combat(4)") or answer == ("divine super combat") or answer == ("4") or answer == ("divine scb"):
+        divineResponse = requests.get(url)
+        if divineResponse.status_code == 200:
+            potionData = divineResponse.json()
+            divinePrice = potionData["data"]["23685"]["high"]
+            print ("Price of Divine Super Combat Potion(4): " + str(divinePrice))
+        print ("How many are you using?")
+        supplies = int(input(""))
+        divineTotal = divinePrice * supplies
+        print(str(divineTotal))
 
 testFn()
 while not answer == ("x"):
     itemPicker()
-    if answer == ("Total"):
-        print ((brewTotal)+(restoreTotal))
+    if answer == ("total"):
+        print ("Total cost of supplies: "+ str((brewTotal)+(restoreTotal)+(sanfewTotal)+(divineTotal)))
         break
